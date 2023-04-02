@@ -4,6 +4,7 @@ using System.Data;
 using System;
 using ExamSystem.Models;
 using ExamSystem.Controllers;
+using ExamSystem.Reprosatories;
 
 namespace ExamSystem
 {
@@ -49,7 +50,12 @@ namespace ExamSystem
                 instractor = instractorController.Login(txt_userName.Text , txt_password.Text);
 
                 if (instractor != null)
-                    MessageBox.Show("Instactor Login Success");
+                {
+                    InstructorScreen instructorScreen = new InstructorScreen(instractor);
+                    instructorScreen.Show();
+                   // this.Hide();
+                }
+                    
                 else
                     MessageBox.Show("In correct user name or password");
             }

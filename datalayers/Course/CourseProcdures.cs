@@ -8,17 +8,19 @@ using System.Data;
 using ExamSystem.Models;
 namespace ExamSystem.datalayers.Course
 {
-    public static class CourseProcdures
+    public sealed  class CourseProcdures
     {
-        static readonly string connection;
-        static SqlConnection sqlConnection;
+         static readonly string connection;
+         static SqlConnection sqlConnection;
+         static DatabaseConnection dbConnection;
 
         static CourseProcdures()
         {
-            connection = DatabaseConnection.databaseConnect();
+            dbConnection = DatabaseConnection.GetInstance();
+            connection = dbConnection.databaseConnect();
         }
 
-        public static List<Models.Course>? getAllCourses()
+        public static  List<Models.Course>? getAllCourses()
         {
             List<Models.Course> courses = new List<Models.Course>();
             
@@ -27,11 +29,15 @@ namespace ExamSystem.datalayers.Course
             {
                 SqlCommand sqlCommand = new SqlCommand("getAllCourses", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-               // sqlConnection.Open();
+                // sqlConnection.Open();
 
-                SqlDataAdapter dr = new SqlDataAdapter(sqlCommand);
                 DataSet ds = new DataSet();
-                dr.Fill(ds);
+                using (SqlDataAdapter dr = new SqlDataAdapter(sqlCommand))
+                {
+                    dr.Fill(ds);
+                } 
+               
+                
 
                 foreach(DataRow dataRow in ds.Tables[0].Rows)
                 {

@@ -11,14 +11,19 @@ namespace ExamSystem.Controllers
 {
     public  class DepartementController : IDepartement
     {
+        Database database;
+        public DepartementController ()
+        {
+            database = Database.Instance;
+        }
         public  List<Departement> getAllDepartements ()
         {
-            return Database.departementsTable;
+            return database.departementsTable;
         }
         public  Departement? GetDepartementById (int? id )
         {
             Departement? departement = new Departement();
-            departement = Database.departementsTable.FirstOrDefault( d => d.id== id );
+            departement = database.departementsTable.FirstOrDefault( d => d.id== id );
             return departement;
         }
     }

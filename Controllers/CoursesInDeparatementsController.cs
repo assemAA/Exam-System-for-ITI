@@ -10,9 +10,14 @@ namespace ExamSystem.Controllers
 {
     public  class CoursesInDeparatementsController : ICoursesInDepartements
     {
+        Database database;
+        public CoursesInDeparatementsController()
+        {
+            database = Database.Instance;
+        }
         public  List<CoursesInDepartements> getAllCoursesInDeparetemnts ()
         {
-            List<CoursesInDepartements> crs_depts = Database.crs_deptSTable;
+            List<CoursesInDepartements> crs_depts = database.crs_deptSTable;
             return crs_depts;
 
         }

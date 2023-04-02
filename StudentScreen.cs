@@ -151,6 +151,11 @@ namespace ExamSystem
             loginScreen.Show();
             this.Close();
         }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

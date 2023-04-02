@@ -2,6 +2,7 @@
 using ExamSystem.datalayers.CoursesInDepartements;
 using ExamSystem.datalayers.Departement;
 using ExamSystem.datalayers.Exam;
+using ExamSystem.datalayers.InsCourse;
 using ExamSystem.datalayers.Instractor;
 using ExamSystem.datalayers.Student;
 using ExamSystem.datalayers.StudentResultInCourse;
@@ -16,27 +17,36 @@ namespace ExamSystem
 {
     public sealed class Database
     {
-        public static List<Student> studentsTable { get;  private set; }
-        public static List<Instractor> instractorsTable { get; private set; }
-        public static List<Departement> departementsTable { get; private set; }
-        public static List<Course> coursesTable { get; private set; }
-        public static List<CoursesInDepartements> crs_deptSTable { get; private set; }
-        public static List<Exam> examsTable { get; private set; }
+        public  List<Student> studentsTable { get;  private set; }
+        public  List<Instractor> instractorsTable { get; private set; }
+        public  List<Departement> departementsTable { get; private set; }
+        public  List<Course> coursesTable { get; private set; }
+        public  List<CoursesInDepartements> crs_deptSTable { get; private set; }
+        public  List<Exam> examsTable { get; private set; }
+        
+        public  List<insCourse> Ins_courseTable { get;  set; }
+        public  List<QuestionsMcq> QuestionsMcqTable { get; set; }
+        public  List<Questions_TF> Questions_TFTable { get; set; }
 
-        public static List<StudentResultInCourses> studentsResultsInCoursesTable { get; private set; }
+
+
+        public  List<StudentResultInCourses> studentsResultsInCoursesTable { get; private set; }
+ 
         Database() {
-            
+
             crs_deptSTable = CoursesInDepartementsProcdures.getAllCoursesInDepartements();
             coursesTable = CourseProcdures.getAllCourses();
             departementsTable = DepartementProcdures.getAllDepartements();
             studentsTable = StudentProcdures.getAllStudents();
             examsTable = ExamProcdures.GetExams();
+            Ins_courseTable = InsCourseProcdures.getAllInsCourse();
             studentsResultsInCoursesTable = StudentCourseResultsProcdures.getAllStudentsCoursesResults();
             instractorsTable = InstractorProcdures.getAllInstactors();
-
+            QuestionsMcqTable=InstractorProcdures.getAllMcq();
+            Questions_TFTable=InstractorProcdures.getAllTF();
         }
         private static Database instance = null;
-        public static Database Instance
+        public static  Database Instance
         {
             get
             {
@@ -48,20 +58,43 @@ namespace ExamSystem
             }
         }
 
-        public static void reloadStudentsResultsInCoursesTable()
+
+
+        public  void reloadStudentsResultsInCoursesTable()
         {
             studentsResultsInCoursesTable = StudentCourseResultsProcdures.getAllStudentsCoursesResults();
         }
 
-        public static void reloadStudentTable ()
+        public  void reloadStudentTable ()
         {
             studentsTable = StudentProcdures.getAllStudents();
         }
 
-        public static void reloadInstractorTable ()
+        public  void reloadInstractorTable ()
         {
             instractorsTable = InstractorProcdures.getAllInstactors();
         }
+        public  void reloadInstractorCourseTable()
+        {
+            Ins_courseTable = InsCourseProcdures.getAllInsCourse();
+        }
+
+        public  void reloadQuestionsMcqTable()
+        {
+            QuestionsMcqTable = InstractorProcdures.getAllMcq();
+        }
+
+        public  void reloadQuestions_TFTable()
+        {
+            Questions_TFTable = InstractorProcdures.getAllTF();
+        }
+
+        public  void reloadExamTable()
+        {
+            examsTable = ExamProcdures.GetExams();
+
+        }
+
 
 
     }

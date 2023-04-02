@@ -18,6 +18,6 @@ namespace ExamSystem.Models
 
         public int? no_tf { get; set; }
 
-        public int? crs_id { get; set; }
+        public int crs_id { get; set; }
     }
 }

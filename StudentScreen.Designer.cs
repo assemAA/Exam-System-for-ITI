@@ -328,6 +328,7 @@
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Grades";
             this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
             // dgv_results
             // 

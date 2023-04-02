@@ -10,16 +10,18 @@ using System.Data;
 
 namespace ExamSystem.datalayers.StudentResultInCourse
 {
-    public static class StudentCourseResultsProcdures
+    public sealed  class StudentCourseResultsProcdures
     {
         static readonly string connectionString ;
-
+        static DatabaseConnection dbConnection;
         static StudentCourseResultsProcdures()
         {
-            connectionString = DatabaseConnection.databaseConnect();
+            dbConnection = DatabaseConnection.GetInstance();
+            connectionString =dbConnection.databaseConnect();
         }
 
-        public static List<StudentResultInCourses> getAllStudentsCoursesResults()
+        
+        public static  List<StudentResultInCourses> getAllStudentsCoursesResults()
         {
             List<StudentResultInCourses> studentsResultsInCourses = new List<StudentResultInCourses>();
             #region implement stored procdures
@@ -30,8 +32,11 @@ namespace ExamSystem.datalayers.StudentResultInCourse
                 
                 DataSet ds = new DataSet();
 
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(ds);
+                using (SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand))
+                {
+                    dataAdapter.Fill(ds);
+                }
+                
 
                 foreach (DataRow dataRow in ds.Tables[0].Rows)
                 {

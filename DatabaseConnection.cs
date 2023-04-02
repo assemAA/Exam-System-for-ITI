@@ -7,13 +7,29 @@ using System.Threading.Tasks;
 
 namespace ExamSystem
 {
-    public static class DatabaseConnection
+    public sealed  class DatabaseConnection
     {
         
-            
-       public  static string databaseConnect ( )
+        readonly string connectionString ;
+        DatabaseConnection() { 
+
+            connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString.ToString();
+        }
+
+        private static DatabaseConnection instance;
+
+        public static DatabaseConnection GetInstance()
         {
-            return ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString.ToString();
+            if (instance == null)
+            {
+                instance = new DatabaseConnection();
+            }
+            return instance;
+        }
+
+        public string databaseConnect ( )
+        {
+            return connectionString; 
         }
     }
 }

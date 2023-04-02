@@ -11,17 +11,25 @@ namespace ExamSystem.Controllers
 {
     public  class StudentController : IStudent
     {
+        Database database;
+       
+        public StudentController()
+        {
+
+            database = Database.Instance;   
+            
+        }
         public  Student Login(string name, string password)
         {
             Student student = new Models.Student();
-            List<Student> students = Database.studentsTable;
+            List<Student> students = database.studentsTable;
             student = students.FirstOrDefault(std => std.name == name && std.password == password);
             return student;
         }
 
         public IEnumerable<Object>  getResultsInCourses (Student student)
         {
-            List<StudentResultInCourses> studentsResultsInCourses = Database.studentsResultsInCoursesTable;
+            List<StudentResultInCourses> studentsResultsInCourses = database.studentsResultsInCoursesTable;
             List<Course> studentCourses = student.courses;
 
             IEnumerable<Object> studentResults = (from std_res_crs in studentsResultsInCourses
@@ -41,7 +49,7 @@ namespace ExamSystem.Controllers
 
             if (rowEffected > 0) MessageBox.Show("Password Updated Successfly");
 
-            Database.reloadStudentTable();
+            database.reloadStudentTable();
         }
     }
 }

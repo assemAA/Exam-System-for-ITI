@@ -56,7 +56,7 @@ namespace ExamSystem
 
         private void loadExam()
         {
-            Tuple<List<FullExamQusetion>, List<ModelAnswer>> examAndAnswers = examController.generateExamForStudent(exam.name);
+            Tuple<List<FullExamQusetion>, List<ModelAnswer>> examAndAnswers = examController.generateExamForStudent(exam.name , this.student);
             this.fullExamQusetions = examAndAnswers.Item1;
             this.modelAnswers= examAndAnswers.Item2;
             

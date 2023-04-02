@@ -9,9 +9,15 @@ namespace ExamSystem.Controllers
 {
     public class CourseController
     {
+        Database database;
+
+        public CourseController()
+        {
+            database = Database.Instance;
+        }
         public  List<Models.Course> getAllCourses()
         {
-            return Database.coursesTable;
+            return database.coursesTable;
         }
     }
 }

@@ -9,16 +9,18 @@ using System.Data;
 
 namespace ExamSystem.datalayers.Exam
 {
-    public static class ExamProcdures
+    public sealed class ExamProcdures
     {
-        static readonly string connection;
-        static SqlConnection sqlConnection;
+         static readonly string connection;
+         static SqlConnection sqlConnection;
+         static DatabaseConnection dbConnection;
         static ExamProcdures()
         {
-            connection = DatabaseConnection.databaseConnect();
+            dbConnection = DatabaseConnection.GetInstance();
+            connection = dbConnection.databaseConnect();
         }
 
-        public static List<Models.Exam> GetExams()
+        public static  List<Models.Exam> GetExams()
         {
             List<Models.Exam> exams= new List<Models.Exam>();
             #region implement storeds 
@@ -27,18 +29,24 @@ namespace ExamSystem.datalayers.Exam
                 SqlCommand sqlCommand= new SqlCommand("get_exams" , sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlConnection.Open();
+                // sqlConnection.Open();
 
-                SqlDataReader dr = sqlCommand.ExecuteReader();
-                while (dr.Read())
+                //SqlDataReader dr = sqlCommand.ExecuteReader();
+
+                DataSet dataSet = new DataSet();
+                using (SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand) )
+                {
+                    dataAdapter.Fill(dataSet);
+                }
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
                     Models.Exam exam = new Models.Exam();
-                    exam.id = Convert.ToInt32(dr[0]);
-                    exam.name = Convert.ToString(dr[1]);
-                    exam.duaration = Convert.ToInt32(dr[2]);
-                    exam.no_mcq= Convert.ToInt32(dr[3]);
-                    exam.no_tf= Convert.ToInt32(dr[4]);
-                    exam.crs_id= Convert.ToInt32(dr[5]);
+                    exam.id = Convert.ToInt32(row[0]);
+                    exam.name = Convert.ToString(row[1]);
+                    exam.duaration = Convert.ToInt32(row[2]);
+                    exam.no_mcq= Convert.ToInt32(row[3]);
+                    exam.no_tf= Convert.ToInt32(row[4]);
+                    exam.crs_id= Convert.ToInt32(row[5]);
                     exams.Add(exam);
                 }
             }
@@ -46,7 +54,7 @@ namespace ExamSystem.datalayers.Exam
             return exams;
         }
 
-        public static Tuple<List<FullExamQusetion> , List<ModelAnswer>> generateExamForStudent (string examName)
+        public static  Tuple<List<FullExamQusetion> , List<ModelAnswer>> generateExamForStudent (string examName , Models.Student student)
         {
             List<FullExamQusetion> fullExams = new List<FullExamQusetion>();
             List<ModelAnswer> modelAnswers = new List<ModelAnswer>();
@@ -57,10 +65,14 @@ namespace ExamSystem.datalayers.Exam
                 SqlCommand sqlCommand = new SqlCommand("generate_exam_by_student", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Parameters.AddWithValue("@exam_tittle", examName);
+                sqlCommand.Parameters.AddWithValue("@stud_id", student.id);
                 //sqlConnection.Open();
                 DataSet ds = new DataSet();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(ds);
+                using (SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand))
+                {
+                    dataAdapter.Fill(ds);
+                } 
+                
 
                 foreach (DataRow dataRow in ds.Tables[0].Rows)
                 {

@@ -19,5 +19,7 @@ namespace ExamSystem.Models
         public double? salary { get; set; }
         public int? dept_id { get; set; }
 
+        public List<Course>? courses { get; set; }
+
     }
 }

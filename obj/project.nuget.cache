@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ybt6bH09X7oPTmJLvBwNtiG0ONHoMwSirAEMErcba14Py0kK4fKHGztaowICbFN5NnLqrvPmMMNMxoeSPn0l1w==",
+  "dgSpecHash": "Bd+eKdAvOrC1N/k5AOCwjtrKIr3dW8eXRayWBWkrVoOL4rBlYWoZ1eSZ0YDsSwYXIjAFXN1FX2N9cvx6B+dfvQ==",
   "success": true,
-  "projectFilePath": "E:\\iti\\data base\\project\\Exam System\\ExamSystem\\ExamSystem\\ExamSystem.csproj",
+  "projectFilePath": "E:\\iti\\data base\\project\\Exam System MT\\ForGitHub\\Exam System\\ExamSystem\\ExamSystem\\ExamSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Assem Amr\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Assem Amr\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
